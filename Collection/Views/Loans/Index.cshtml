@@ -1,0 +1,65 @@
+﻿@model IEnumerable<Collection.Models.Loan>
+
+@{
+    ViewData["Title"] = "Index | Loans";
+}
+
+@{
+    int id = Convert.ToInt32(ViewContext.RouteData.Values["id"]);
+}
+
+<h1>Loans</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Cd_Id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Date)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IsReturned)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @for (var x = 0; x < Collection.Controllers.LoansController.GetCds(id).Count; x++)
+                    {
+
+                        if (item.Cd_Id.ToString().Equals(Collection.Controllers.LoansController.GetCds(id)[x].Value))
+                        {
+                            @Collection.Controllers.LoansController.GetCds(id)[x].Text
+                        }
+                    }
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Date)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IsReturned)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
